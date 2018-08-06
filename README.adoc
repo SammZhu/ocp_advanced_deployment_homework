@@ -1,6 +1,6 @@
 = OpenShift Container Platform - Advanced Deployment - Homework
 
-Goals
+**Goals**
 
 I deploy and configure OpenShift Container Platform on a group of servers to meet client requirements:
 
@@ -10,7 +10,7 @@ I deploy and configure OpenShift Container Platform on a group of servers to mee
 
 * Configure the OpenShift Container Platform cluster.
 
-Provisioned Environment Hosts
+**Provisioned Environment Hosts**
 
 $GUID=7e7f
 
