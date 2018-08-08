@@ -89,6 +89,23 @@
       shell: docker tag registry.access.redhat.com/openshift3/ose-recycler:latest registry.access.redhat.com/openshift3/ose-recycler:v3.9.30
 
 - name: Smoke Test
+  hosts: localhost
+  tasks:
+    - name: Create a new project
+      shell: oc new-project smoke-test
+    - name: Create the Node.JS Application
+      shell: oc new-app nodejs-mongo-persistent
+    - name: Watch the build and mongo pods
+      shell: watch oc get pod
+    - name: sleep for 300 seconds and continue with play
+      wait_for: timeout=300
+      delegate_to: localhost
+    - name: Retrieving the route
+      shell: oc get route
+    - name: Navigating to the route
+      shell: "curl -k -i --head https://nodejs-mongo-persistent-smoke-test.apps.{{lookup('env','GUID')}}.mitzicom.com"
+    - name: Delete smoke test project
+      shell: oc delete project smoke-test
 
 - name: Jenkins Setup
   hosts: localhost
