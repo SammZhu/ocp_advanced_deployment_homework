@@ -1,3 +1,4 @@
+export GUID=`hostname|awk -F. '{print $2}'`
 export volsize="5Gi"
 mkdir /root/pvs
 for volume in pv{1..25} ; do
