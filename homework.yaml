@@ -43,7 +43,10 @@
   hosts: masters[0]
   tasks:
     - name: copy the .kube directory from master1 to your bastion
-    ????
+      fetch:
+        src: /root/.kube/config
+        dest: /root/.kube/config
+        flat: yes
 
 - name: Post installation configuration
   hosts: localhost
@@ -55,18 +58,35 @@
   hosts: nfs
   tasks:
     - name:
-      script: ????
+      script: /root/ocp_advanced_deployment_homework/scripts/create_pvs.sh
     - name: Restarting NFS Server...
       shell: systemctl restart nfs-server
 
 - name: Create 25 definitions files for PVs 5G size
   hosts: localhost
+  tasks:
+    - name: Create 25 definitions files 5G size
+      script: /root/ocp_advanced_deployment_homework/scripts/pvs_5Gsize.sh
 
 - name: Create 25 definitions files for PVs 10G size
+  hosts: localhost
+  tasks:
+    - name: Create 25 definitions files 10G size
+      script: /root/ocp_advanced_deployment_homework/scripts/pvs_10Gsize.sh
 
 - name: Create all PVs from definitions files
+  hosts: localhost
+  tasks:
+    - name: Create 25 definitions files 5G size
+      shell: cat /root/pvs/* | oc create -f -
 
 - name: Fix NFS Persistent Volume Recycling
+  hosts: localhost
+  tasks:
+    - name: Pulling ose recycler image
+      shell: docker pull registry.access.redhat.com/openshift3/ose-recycler:latest
+    - name: Tagging ose recycler image
+      shell: docker tag registry.access.redhat.com/openshift3/ose-recycler:latest registry.access.redhat.com/openshift3/ose-recycler:v3.9.30
 
 - name: Smoke Test
 
