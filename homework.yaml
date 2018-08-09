@@ -106,11 +106,8 @@
     - name: HPA configuration
       shell: oc autoscale dc/spring-rest --min=1 --max=5 --cpu-percent=70 -n basic-spring-boot-prod
 
-- name: Creation of users for Alpha and Beta clients
-
-- name: Assigning labels to the users according to its group
-
-- name: Setup the environment for Alpha and Beta clients
-
-
-  ....
+- name: Multitenancy
+  hosts:localhsot
+  tasks:
+    - name: Multitenancy
+      script: /root/ocp_advanced_deployment_homework/scripts/multitenancy.sh
