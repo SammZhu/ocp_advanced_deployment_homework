@@ -103,6 +103,8 @@
 - name: HPA configuration on production deployment of openshift-tasks
   hosts: localhost
   tasks:
+    - name: HPA configuration
+      shell: oc autoscale dc/spring-rest --min=1 --max=10 --cpu-percent=80 -n basic-spring-boot-prod
 
 - name: Creation of users for Alpha and Beta clients
 
