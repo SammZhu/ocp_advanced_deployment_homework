@@ -3,13 +3,13 @@
   hosts: all
   tasks:
     - name: All GUID env variable
-      shell: export GUID=`hostname | cut -d"." -f2`; echo "export GUID=$GUID" >> $HOME/.bashrc
+      shell：export GUID=`hostname | cut -d"." -f2`; echo "export GUID=$GUID" >> $HOME/.bashrc
 
 - name: Verify Installation and Configuration of Docker
   hosts: nodes
   tasks:
     - name: docker restart
-      shell: systemctl restart docker
+      shell: systemctl status docker | grep Active
 
 - name: Verify NFS Shared Volumes on Hosts
   hosts: nfs
@@ -31,7 +31,7 @@
   hosts: localhost
   tasks:
     - name: Generate Inventory script
-      script: /root/ocp_advanced_deployment_homework/scripts/generate_inventory.sh
+      script: ./scripts/generate_inventory.sh
 
 - name: Execute the openshift-ansible prerequisites
   import_playbook: /usr/share/ansible/openshift-ansible/playbooks/prerequisites.yml
@@ -58,7 +58,7 @@
   hosts: nfs
   tasks:
     - name:
-      script: /root/ocp_advanced_deployment_homework/scripts/create_pvs.sh
+      script: /scripts/create_pvs.sh
     - name: Restarting NFS Server...
       shell: systemctl restart nfs-server
 
@@ -66,13 +66,13 @@
   hosts: localhost
   tasks:
     - name: Create 25 definitions files 5G size
-      script: /root/ocp_advanced_deployment_homework/scripts/pvs_5Gsize.sh
+      script: ./scripts/pvs_5Gsize.sh
 
 - name: Create 25 definitions files for PVs 10G size
   hosts: localhost
   tasks:
     - name: Create 25 definitions files 10G size
-      script: /root/ocp_advanced_deployment_homework/scripts/pvs_10Gsize.sh
+      script: ./scripts/pvs_10Gsize.sh
 
 - name: Create all PVs from definitions files
   hosts: localhost
@@ -92,13 +92,13 @@
   hosts: localhost
   tasks:
     - name: Smoke Test
-      script: /root/ocp_advanced_deployment_homework/scripts/nodejs_mongo_app.sh
+      script: ./scripts/nodejs_mongo_app.sh
 
 - name: Jenkins Setup
   hosts: localhost
   tasks:
     - name: Jenkins Setup
-      shell: ansible-playbook -i /root/ocp_advanced_deployment_homework/container-pipelines/basic-spring-boot/applier/inventory/ /root/ocp_advanced_deployment_homework/openshift-applier/playbooks/openshift-cluster-seed.yml
+      shell: ansible-playbook -i ./container-pipelines/basic-spring-boot/applier/inventory/ ./openshift-applier/playbooks/openshift-cluster-seed.yml
 
 - name: HPA configuration on production deployment of openshift-tasks
   hosts: localhost
@@ -110,4 +110,4 @@
   hosts:localhsot
   tasks:
     - name: Multitenancy
-      script: /root/ocp_advanced_deployment_homework/scripts/multitenancy.sh
+      script: ./scripts/multitenancy.sh
