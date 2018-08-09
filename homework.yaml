@@ -98,7 +98,7 @@
   hosts: localhost
   tasks:
     - name: Jenkins Setup
-      shell: ansible-playbook -i /root/ocp_advanced_deployment_homework/resources/container-pipelines/basic-spring-boot/applier/inventory/ /root/ocp_advanced_deployment_homework/resources/openshift-applier/playbooks/openshift-cluster-seed.yml
+      shell: ansible-playbook -i /root/ocp_advanced_deployment_homework/container-pipelines/basic-spring-boot/applier/inventory/ /root/ocp_advanced_deployment_homework/openshift-applier/playbooks/openshift-cluster-seed.yml
 
 - name: HPA configuration on production deployment of openshift-tasks
   hosts: localhost
