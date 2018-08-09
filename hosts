@@ -10,7 +10,7 @@ ansible_ssh_user=ec2-user
 ###########################################################################
 ### OpenShift Basic Vars
 ###########################################################################
-openshift_deployment_type=openshift-enterprise
+#openshift_deployment_type=openshift-enterprise
 deployment_type=openshift-enterprise
 containerized=false
 # disable memory check, as we are not a production environment
@@ -22,19 +22,19 @@ openshift_hosted_infra_selector="env=infra"
 
 
 # Configure node kubelet arguments. pods-per-core is valid in OpenShift Origin 1.3 or OpenShift Container Platform 3.3 and later.
-openshift_node_kubelet_args={'pods-per-core': ['10'], 'max-pods': ['250'], 'image-gc-high-threshold': ['85'], 'image-gc-low-threshold': ['75']}
+#openshift_node_kubelet_args={'pods-per-core': ['10'], 'max-pods': ['250'], 'image-gc-high-threshold': ['85'], 'image-gc-low-threshold': ['75']}
 
 # Configure logrotate scripts
 # See: https://github.com/nickhammond/ansible-logrotate
-logrotate_scripts=[{"name": "syslog", "path": "/var/log/cron\n/var/log/maillog\n/var/log/messages\n/var/log/secure\n/var/log/spooler\n", "options": ["daily", "rotate 7","size 500M", "compress", "sharedscripts", "missingok"], "scripts": {"postrotate": "/bin/kill -HUP `cat /var/run/syslogd.pid 2> /dev/null` 2> /dev/null || true"}}]
+#logrotate_scripts=[{"name": "syslog", "path": "/var/log/cron\n/var/log/maillog\n/var/log/messages\n/var/log/secure\n/var/log/spooler\n", "options": ["daily", "rotate 7","size 500M", "compress", "sharedscripts", "missingok"], "scripts": {"postrotate": "/bin/kill -HUP `cat /var/run/syslogd.pid 2> /dev/null` 2> /dev/null || true"}}]
 
 ###########################################################################
 ### OpenShift Cockpit Vars
 ###########################################################################
 
 # Enable cockpit
-osm_use_cockpit=true
-osm_cockpit_plugins=['cockpit-kubernetes']
+#osm_use_cockpit=true
+#osm_cockpit_plugins=['cockpit-kubernetes']
 
 ###########################################################################
 ### OpenShift Master Vars
@@ -60,8 +60,8 @@ openshift_enable_unsupported_configurations=True
 
 os_sdn_network_plugin_name='redhat/openshift-ovs-multitenant'
 #os_sdn_network_plugin_name='redhat/openshift-ovs-subnet'
-osm_cluster_network_cidr=10.1.0.0/16
-openshift_portal_net=172.30.0.0/16
+#osm_cluster_network_cidr=10.1.0.0/16
+#openshift_portal_net=172.30.0.0/16
 
 
 ###########################################################################
@@ -75,22 +75,28 @@ openshift_master_identity_providers='[{"name": "htpasswd_auth", "login": true, "
 ###########################################################################
 ### OpenShift Router and Registry Vars
 ###########################################################################
-openshift_hosted_router_replicas=1
+openshift_hosted_router_replicas=2
 openshift_hosted_registry_replicas=1
+openshift_hosted_registry_storage_kind=nfs
+openshift_hosted_registry_storage_access_modes=['ReadWriteMany']
+openshift_hosted_registry_storage_nfs_directory=/srv/nfs
+openshift_hosted_registry_storage_nfs_options='*(rw,root_squash)'
+openshift_hosted_registry_storage_volume_name=registry
+openshift_hosted_registry_storage_volume_size=20Gi
 openshift_hosted_registry_pullthrough=true
 openshift_hosted_registry_acceptschema2=true
 openshift_hosted_registry_enforcequota=true
 
 # Registry AWS S3
 # S3 bucket must already exist.
-openshift_hosted_registry_storage_kind=object
-openshift_hosted_registry_storage_provider=s3
-openshift_hosted_registry_storage_s3_accesskey=AKIAIEBAGTYYSBJFOAHQ
-openshift_hosted_registry_storage_s3_secretkey=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
-openshift_hosted_registry_storage_s3_bucket=ocp-workshop-GUID
-openshift_hosted_registry_storage_s3_region=ap-southeast-1
-openshift_hosted_registry_storage_s3_chunksize=26214400
-openshift_hosted_registry_storage_s3_rootdirectory=/registry
+#openshift_hosted_registry_storage_kind=object
+#openshift_hosted_registry_storage_provider=s3
+#openshift_hosted_registry_storage_s3_accesskey=AKIAIEBAGTYYSBJFOAHQ
+#openshift_hosted_registry_storage_s3_secretkey=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
+#openshift_hosted_registry_storage_s3_bucket=ocp-workshop-GUID
+#openshift_hosted_registry_storage_s3_region=ap-southeast-1
+#openshift_hosted_registry_storage_s3_chunksize=26214400
+#openshift_hosted_registry_storage_s3_rootdirectory=/registry
 
 ###########################################################################
 ### OpenShift Service Catalog Vars
@@ -123,7 +129,7 @@ openshift_metrics_storage_nfs_options='*(rw,root_squash)'
 openshift_metrics_storage_volume_name=metrics
 openshift_metrics_storage_volume_size=10Gi
 openshift_metrics_storage_labels={'storage': 'metrics'}
-openshift_metrics_cassanda_pvc_storage_class_name=''
+#openshift_metrics_cassanda_pvc_storage_class_name=''
 
 openshift_metrics_cassandra_nodeselector={"env":"infra"}
 openshift_metrics_hawkular_nodeselector={"env":"infra"}
@@ -141,7 +147,7 @@ openshift_logging_storage_nfs_options='*(rw,root_squash)'
 openshift_logging_storage_volume_name=logging
 openshift_logging_storage_volume_size=10Gi
 openshift_logging_storage_labels={'storage': 'logging'}
-openshift_logging_es_pvc_storage_class_name=''
+#openshift_logging_es_pvc_storage_class_name=''
 
 openshift_logging_es_cluster_size=1
 openshift_logging_es_nodeselector={"env":"infra"}
