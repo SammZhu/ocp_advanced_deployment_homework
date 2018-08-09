@@ -44,9 +44,9 @@ openshift_master_api_port=443
 openshift_master_console_port=443
 
 openshift_master_cluster_method=native
-openshift_master_cluster_hostname=master.GUID.mitzicom.com
-openshift_master_cluster_public_hostname=master.GUID.mitzicom.com
-openshift_master_default_subdomain=apps.GUID.mitzicom.com
+openshift_master_cluster_hostname=master.GUID.example.opentlc.com
+openshift_master_cluster_public_hostname=master.GUID.example.opentlc.com
+openshift_master_default_subdomain=apps.GUID.example.opentlc.com
 #openshift_master_ca_certificate={'certfile': '/root/intermediate_ca.crt', 'keyfile': '/root/intermediate_ca.key'}
 openshift_master_overwrite_named_certificates=True
 
@@ -68,7 +68,7 @@ openshift_portal_net=172.30.0.0/16
 ### OpenShift Authentication Vars
 ###########################################################################
 
-# htpasswd 
+# htpasswd
 openshift_master_htpasswd_file=/root/htpasswd.openshift
 openshift_master_identity_providers='[{"name": "htpasswd_auth", "login": true, "challenge": true, "kind": "HTPasswdPasswordIdentityProvider", "filename": "/etc/origin/master/htpasswd"}]'
 
