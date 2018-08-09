@@ -91,21 +91,8 @@
 - name: Smoke Test
   hosts: localhost
   tasks:
-    - name: Create a new project
-      shell: oc new-project smoke-test
-    - name: Create the Node.JS Application
-      shell: oc new-app nodejs-mongo-persistent
-    - name: Watch the build and mongo pods
-      shell: watch oc get pod
-    - name: sleep for 300 seconds and continue with play
-      wait_for: timeout=300
-      delegate_to: localhost
-    - name: Retrieving the route
-      shell: oc get route
-    - name: Navigating to the route
-      shell: "curl -k -i --head https://nodejs-mongo-persistent-smoke-test.apps.{{lookup('env','GUID')}}.mitzicom.com"
-    - name: Delete smoke test project
-      shell: oc delete project smoke-test
+    - name: Smoke Test
+      script: /root/ocp_advanced_deployment_homework/scripts/nodejs_mongo_app.sh
 
 - name: Jenkins Setup
   hosts: localhost
