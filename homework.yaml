@@ -96,9 +96,26 @@
 
 - name: Jenkins Setup
   hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    jenkins_template_file: ./jenkins_template.yml
+    jenkins:
+      username: admin
+      password: admin
+      validate_certs: False
   tasks:
-    - name: jenkins setup
-      script: ???
+    - name: Process Jenkins template and modify to install Jenkins on http
+      shell: cat {{jenkins_template_file}} | oc process -f -
+      register: jenkins_template
+
+    - name: Install Jenkins from processed template
+      shell: echo '{{jenkins_template.stdout}}' | oc create -f -
+      ignore_errors: True
+        
+    - name: Wait for pod to start
+      pause:
+        seconds: 60
 
 - name: HPA configuration on production deployment of openshift-tasks
   hosts: localhost
