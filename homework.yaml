@@ -53,6 +53,8 @@
   tasks:
     - name: make sure you are system:dmin
       shell: oc whoami | grep system:admin
+    - name: grant user1 to administrator privilege
+      shell: oc adm policy add-cluster-role-to-user cluster-admin user1
 
 - name: Create PVs for Users
   hosts: nfs
