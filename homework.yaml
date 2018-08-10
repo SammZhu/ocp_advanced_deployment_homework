@@ -81,7 +81,7 @@
       shell: cat /root/pvs/* | oc create -f -
 
 - name: Fix NFS Persistent Volume Recycling
-  hosts: localhost
+  hosts: nodes
   tasks:
     - name: Pulling ose recycler image
       shell: docker pull registry.access.redhat.com/openshift3/ose-recycler:latest
