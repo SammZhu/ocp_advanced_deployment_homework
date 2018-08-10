@@ -12,7 +12,7 @@ Role used to apply OpenShift objects to an existing OpenShift Cluster.
 		- [Ordering of Objects in the inventory](#ordering-of-objects-in-the-inventory)
 		- [Privileged Objects](#privileged-objects)
 		- [Object Entries in the Inventory](#object-entries-in-the-inventory)
-		- [Override default actions with `action`](#override-default-actions-with-action)
+		- [Override default actions with `file_action` and `template_action`](#override-default-actions-with-fileaction-and-templateaction)
 		- [Filtering content based on tags](#filtering-content-based-on-tags)
 		- [Deprovisioning](#deprovisioning)
 		- [Dependencies](#dependencies)
@@ -48,7 +48,7 @@ openshift_cluster_content:
         vars: # Optional: only needed if the role above needs values passed
           <key1>: <value1>  
     file: <file source>
-    action: <apply|create> # Optional: Defaults to 'apply'
+    file_action: <apply|create> # Optional: Defaults to 'apply'
     tags: # Optional: Tags are only needed if `filter_tags` is used
     - tag1
     - tag2
@@ -60,15 +60,14 @@ openshift_cluster_content:
   content:
   - name: <definition_name>
     template: <template_source>
-    action: <apply|create> # Optional: Defaults to 'apply'
-    params: <params_file_source> # Optional if template has all default values for required fields
-    params_from_vars: <params_dictionary_variable> # Optional: Use to supply additional run-time params or override params from file
+    template_action: <apply|create> # Optional: Defaults to 'apply'
+    params: <params_file_source>
     namespace: <target_openshift_namespace>
 ```
 
-You have the choice of sourcing a `file` or a `template`. The `file` definition expects that the sourced file has all definitions set and will NOT accept any parameters (i.e.: static content). The `template` definition can be paired with a `params` file and/or params supplied through a dictionary variable `params_from_vars` which will be passed into the template. Note that if a template supply all default values, it can be processed without `params` or `params_from_vars` set.
+You have the choice of sourcing a `file` or a `template`. The `file` definition expects that the sourced file has all definitions set and will NOT accept any parameters (i.e.: static content). The `template` definition expects a `params` file to be sourced along with it which will be passed into the template.
 
-**_TIP:_** Both `file` and `template` choices give you the option of defining target namespaces in the template manually, or adding the `namespace` variable alongside the template and params (where applicable).
+**_TIP:_** Both choices give you the option of defining target namespaces in the template manually, or adding the `namespace` variable alongside the template and params (where applicable)
 
 The `tags` definition is a list of tags that will be processed if the `filter_tags` variable/fact is supplied. See [Filtering content based on tags](README.md#filtering-content-based-on-tags) below for more details.
 
@@ -77,6 +76,8 @@ The pre/post definitions are a set of pre and post roles to execute before/after
 ### Sourcing a directory with files
 
 You can source a directory composed of static files (without parameters) using `files` instead of defining each file individually.
+
+NOTE: Formerly, this was done using a separate `content_dir` structure. This has been deprecated.
 
 That would look like this:
 ```yaml
@@ -119,9 +120,9 @@ These objects look like this:
     namespace: <target_namespace>
   - name: <name_of_second_template>
     template: <template_source>
-    params_from_vars: <params_dictionary_variable>
+    params: <params_file_source>
     namespace: <target_namespace>
-  - name: <name_of_file>
+  - name: <name_of_second_template>
     file: <yaml/json_source>
     namespace: <target_namespace>
 - object: <relevant_name>
@@ -137,9 +138,9 @@ These objects look like this:
 **_NOTE:_** If the target namespace is not defined in each of the objects within the template, be sure to add the `namespace` variable.
 
 
-### Override default actions with `action`
+### Override default actions with `file_action` and `template_action`
 
-The file and template entries have default handling of `apply` - i.e.: how the `oc` command applies the object(s). This can be overridden with with the inventory variable `action`. Normally this should not be necessary, but in some cases it may be for various reasons such as permission levels. One example is if a `ProjectRequest` is defined as a **template**. In that case, if a non-privileged user tries to apply the objects it will error out as the user's permissions do not allow for `oc apply` at the cluster scope. In that case, it will be required to override the action with `action: create`. For example:
+The file and template entries have default handling of `apply` - i.e.: how the `oc` command applies the object(s). This can be overridden with with the inventory variables `file_action` and `template_action`. Normally this should not be necessary, but in some cases it may be necessary for various reasons such as permission levels. One example is if a `ProjectRequest` is defined as templates. In that case, if a non-privileged user tries to apply the objects it will error out as the user's permissions do not allow for `oc apply` at the cluster scope. In that case, it will be required to override the action with `template_action: create`. For example:
 
 ```yaml
 openshift_cluster_content:
@@ -150,26 +151,14 @@ openshift_cluster_content:
   - name: "my-space2"
     template: "my-space-template.yml"
     params: "my-space-paramsfile"
-    action: create       # Note the 'action' set to override the default 'apply' action
-  - name: "my-space3"
-    template: "my-space-template.yml"
-    params_from_vars: "{{ my_space_params_dict }}"
-    action: create       # Note the 'action' set to override the default 'apply' action
+    template_action: create       # Note the template_action set to override the default 'apply' action
 ```
 
-**_NOTE:_** In the above example, the `my_space_params_dict` variable may look similar to the following:
-```yaml
-my_space_params_dict:
-  NAMESPACE: my-project
-  NAMESPACE_DISPLAY_NAME: MyProject
-  NAMESPACE_DESCRIPTION: This is My Project
-```
-
-Valid `action` values are `apply`, `create`, and `delete`.
+Valid `file_action` and `template_action` values are `apply`, `create`, and `delete`.
 
 ### Filtering content based on tags
 
-The `openshift-applier` supports the use of tags in the inventory (see example above) to allow for filtering which content should be processed and not. The `filter_tags` variable/fact takes a comma separated list of tags that will be processed and only content with matching tags will be applied.
+The `openshift-applier` supports the use of tags in the inventory (see example above) to allow for filtering which content should be processed and not. The `filter_tags` variable/fact takes a comma separated list of tags that will be processed and only content/content_dir with matching tags will be applied.
 
 **_NOTE:_** Entries in the inventory without tags will not be processed when a valid list is supplied with the `filter_tags` option.
 
