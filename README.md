@@ -1,18 +1,30 @@
-= OpenShift Container Platform - Advanced Deployment - Homework
+# OpenShift Container Platform - Advanced Deployment - Homework
 
-**Goals**
 
-I deploy and configure OpenShift Container Platform on a group of servers to meet client requirements:
 
-* Configure Red Hat Enterprise Linux 7 hosts for OpenShift deployment.
 
-* Deploy a highly available OpenShift Container Platform cluster.
 
-* Configure the OpenShift Container Platform cluster.
+
+
+## Summary
+
+**Requirements**
+
+- Ability to authenticate at the master console
+
+- Registry has storage attached and working
+
+- Router is configured on each infranode
+
+- PVs of different types are available for users to consume
+
+- Ability to deploy a simple app (`nodejs-mongo-persistent`)
+
+  
 
 **Provisioned Environment Hosts**
 
-$GUID=7e7f
+This one-click installation script applies to the following host environment.
 
 * Bastion host: bastion.$GUID.example.opentlc.com, bastion.$GUID.internal
 
@@ -26,9 +38,32 @@ $GUID=7e7f
 
 * NFS server: support1.$GUID.internal
 
-* 3 GlusterFS servers: support{1-3}.$GUID.internal
-
-These servers are initially disabled
 
 
+
+## **Installation**
+
+1. First execute the **sudo** command to ensure that you have operational execution authority, and then clone the prepared script from GitHub to the local environment.
+
+```shell
+[xxxx@bastion ~]$ sudo -i
+[root@bastion ~]# git clone https://github.com/SammZhu/ocp_advanced_deployment_homework.git
+```
+
+2. Then go into the working directory and execute the Ansible playbook script to install the environment.
+
+```shell
+[root@bastion ~]# cd ocp_advanced_deployment_homework
+[root@bastion ~]# ansible-playbook ./homework.yaml
+```
+
+
+
+## Uninstallation
+
+If you have an error during installation or need to clear the environment, you can perform the following command to uninstall the software.
+
+```shell
+[root@bastion ~]# sh ./scripts/uninstall.sh
+```
 
