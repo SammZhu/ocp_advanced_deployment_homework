@@ -1,4 +1,4 @@
-APPLICATION_NAME=spring-rest
+APPLICATION_NAME=openshift-tasks
 NAMESPACE=basic-spring-boot-stage
 SA_NAME=jenkins
 SA_NAMESPACE=basic-spring-boot-build

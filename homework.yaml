@@ -96,11 +96,11 @@
     - name: Smoke Test
       script: ./scripts/nodejs_mongo_app.sh
 
-- name: Jenkins Setup
+- name: CI CD workflow
   hosts: localhost
   tasks:
-    - name: Jenkins Setup
-      shell: ansible-playbook -i ./container-pipelines/basic-spring-boot/applier/inventory/ ./openshift-applier/playbooks/openshift-cluster-seed.yml 
+    - name: CI CD workflow
+      script: ./scripts/cicd.sh 
 
 - name: HPA configuration on production deployment of openshift-tasks
   hosts: localhost
