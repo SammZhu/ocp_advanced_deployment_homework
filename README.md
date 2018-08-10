@@ -191,7 +191,7 @@ These are related shell scripts and templates below
 [root@bastion ~]# git clone https://github.com/SammZhu/ocp_advanced_deployment_homework.git
 ```
 
-1. Then go into the working directory and execute the Ansible playbook script to install the environment. The entire installation will take about an hour.
+2. Then go into the working directory and execute the Ansible playbook script to install the environment. The entire installation will take about an hour.
 
 ```shell
 [root@bastion ~]# cd ocp_advanced_deployment_homework
