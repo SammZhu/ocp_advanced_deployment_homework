@@ -28,6 +28,6 @@ items:
 - kind: ProjectRequest
   apiVersion: v1
   metadata:
-    name: test
+    name: smoke-test
     creationTimestam: null
   displayName: Spring Rest App - Test
