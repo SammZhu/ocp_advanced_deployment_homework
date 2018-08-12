@@ -25,9 +25,3 @@ items:
     name: basic-spring-boot-prod
     creationTimestam: null
   displayName: Spring Rest App - Prod
-- kind: ProjectRequest
-  apiVersion: v1
-  metadata:
-    name: smoke-test
-    creationTimestam: null
-  displayName: Spring Rest App - Test
