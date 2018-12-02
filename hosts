@@ -58,7 +58,7 @@ openshift_node_groups=[{'name': 'node-config-master', 'labels': ['node-role.kube
 openshift_release="3.11"
 
 # default subdomain to use for exposed routes, you should have wildcard dns
-# for *.apps.babc.internal that points at your infra nodes which will run
+# for *.apps.GUID.internal that points at your infra nodes which will run
 # your router
 openshift_master_default_subdomain=apps.GUID.example.opentlc.com
 
@@ -89,7 +89,7 @@ debug_level=2
 #system_images_registry="docker.io"
 # when openshift_deployment_type=='openshift-enterprise'
 system_images_registry="registry.redhat.io"
-#system_images_registry=isolated1.babc.internal:5000
+#system_images_registry=isolated1.GUID.internal:5000
 
 # Manage openshift example imagestreams and templates during install and upgrade
 #openshift_install_examples=true
@@ -179,14 +179,14 @@ system_images_registry="registry.redhat.io"
 # openshift-enterprise default is 'registry.redhat.io/openshift3/ose-${component}:${version}'
 # origin default is 'docker.io/openshift/origin-${component}:${version}'
 oreg_url=registry.redhat.io/openshift3/ose-${component}:${version}
-#oreg_url=isolated1.babc.internal:5000/openshift3/ose-${component}:${version}
+#oreg_url=isolated1.GUID.internal:5000/openshift3/ose-${component}:${version}
 
 # If oreg_url points to a registry other than registry.redhat.io we can
 # modify image streams to point at that registry by setting the following to true
 openshift_examples_modify_imagestreams=true
 # Add insecure and blocked registries to global docker configuration
 #openshift_docker_insecure_registries=registry.example.com
-#openshift_docker_insecure_registries=isolated1.babc.internal:5000
+#openshift_docker_insecure_registries=isolated1.GUID.internal:5000
 
 #openshift_docker_blocked_registries=registry.hacker.com
 #openshift_docker_blocked_registries=registry.access.redhat.com,docker.io
@@ -194,7 +194,7 @@ openshift_examples_modify_imagestreams=true
 # You may also configure additional default registries for docker, however this
 # is discouraged. Instead you should make use of fully qualified image names.
 # openshift_docker_additional_registries=registry.example.com
-# openshift_docker_additional_registries=isolated1.babc.internal:5000
+# openshift_docker_additional_registries=isolated1.GUID.internal:5000
 
 # If oreg_url points to a registry requiring authentication, provide the following:
 #oreg_auth_user=some_user
@@ -351,7 +351,7 @@ osm_cockpit_plugins=['cockpit-kubernetes']
 # openshift_master_cluster_hostname must resolve to the load balancer
 # or to one or all of the masters defined in the inventory if no load
 # balancer is present.
-#openshift_master_cluster_hostname=openshift-ansible.babc.internal
+#openshift_master_cluster_hostname=openshift-ansible.GUID.internal
 
 # If an external load balancer is used public hostname should resolve to
 # external load balancer address
@@ -447,7 +447,7 @@ openshift_hosted_router_replicas=2
 # Override the console image prefix:
 # origin default is "cockpit/", enterprise default is "openshift3/"
 #openshift_cockpit_deployer_prefix=registry.example.com/myrepo/
-#openshift_cockpit_deployer_prefix=isolated1.babc.internal:5000/openshift3/
+#openshift_cockpit_deployer_prefix=isolated1.GUID.internal:5000/openshift3/
 
 # origin default is "kubernetes", enterprise default is "registry-console"
 #openshift_cockpit_deployer_basename=my-console
@@ -517,7 +517,7 @@ openshift_hosted_registry_replicas=1
 #openshift_hosted_registry_storage_volume_size=10Gi
 openshift_hosted_registry_storage_kind=nfs
 openshift_hosted_registry_storage_access_modes=['ReadWriteMany']
-openshift_hosted_registry_storage_host=support1.babc.internal
+openshift_hosted_registry_storage_host=support1.GUID.internal
 openshift_hosted_registry_storage_nfs_directory=/srv/nfs
 openshift_hosted_registry_storage_nfs_options='*(rw,root_squash)'
 openshift_hosted_registry_storage_volume_name=registry
@@ -723,7 +723,7 @@ openshift_logging_storage_nfs_options='*(rw,root_squash)'
 openshift_logging_storage_volume_name=logging
 openshift_logging_storage_volume_size=10Gi
 openshift_logging_storage_labels={'storage': 'logging'}
-openshift_logging_storage_host=support1.babc.internal
+openshift_logging_storage_host=support1.GUID.internal
 
 #
 # Option B - External NFS Host
