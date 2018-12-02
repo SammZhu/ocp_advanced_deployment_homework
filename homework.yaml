@@ -63,7 +63,7 @@
 - name: Post installation configuration
   hosts: localhost
   tasks:
-    - name: make sure you are system:dmin
+    - name: make sure you are system:admin
       shell: oc whoami | grep system:admin
     - name: grant user1 to administrator privilege
       shell: oc adm policy add-cluster-role-to-user cluster-admin user1
