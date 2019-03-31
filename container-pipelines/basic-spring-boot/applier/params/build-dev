@@ -1,4 +1,4 @@
 APPLICATION_NAME=openshift-tasks
 NAMESPACE=basic-spring-boot-build
 SOURCE_REPOSITORY_URL=https://github.com/redhat-cop/container-pipelines.git
-SOURCE_REPOSITORY_REF=master
+SOURCE_REPOSITORY_REF=1.5.8.Final-redhat-1.1
